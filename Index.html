@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QuizMaster - Canton Network Quiz</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 800px;
+            transition: all 0.3s ease;
+            padding: 40px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .logo {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-size: 35px;
+            font-weight: bold;
+        }
+
+        .question {
+            font-size: 22px;
+            font-weight: 600;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .option {
+            padding: 14px;
+            background: white;
+            border-radius: 12px;
+            border: 2px solid transparent;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .option:hover {
+            border-color: #764ba2;
+        }
+
+        .btn {
+            margin-top: 25px;
+            width: 100%;
+            padding: 14px;
+            font-size: 18px;
+            font-weight: 600;
+            border: none;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            cursor: pointer;
+            border-radius: 12px;
+        }
+
+        .btn:hover {
+            opacity: 0.8;
+        }
+
+        .score {
+            font-size: 26px;
+            text-align: center;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="header">
+        <div class="logo">Canton Network Quiz</div>
+        <p>Test Your Knowledge</p>
+    </div>
+
+    <div id="quizBox">
+        <p class="question" id="question"></p>
+        <div class="options" id="options"></div>
+        <button class="btn" onclick="nextQuestion()">Next</button>
+    </div>
+</div>
+
+<script>
+    const quizData = [
+        {
+            question: "1) What does the 'Quests' section on the Developer Resources page offer?",
+            options: [
+                "A) Free node hosting and deployment tools.",
+                "B) Guided learning journeys covering architecture, Daml basics, and smart-contract building.",
+                "C) A marketplace for decentralized AI agents.",
+                "D) Templates for launching tokenized assets."
+            ],
+            answer: 1
+        },
+        {
+            question: "2) Which of the following is NOT listed under the 'Canton Docs' sections?",
+            options: [
+                "A) Daml Documentation",
+                "B) Network Architecture Overview",
+                "C) DeFi — how to launch decentralized exchanges.",
+                "D) Smart Contract Development Guides"
+            ],
+            answer: 2
+        },
+        {
+            question: "3) What incentive structure is mentioned for builders on the Canton Network?",
+            options: [
+                "A) Rewards are distributed equally to all users.",
+                "B) Builders earn rewards because the tokenomics ensures most rewards flow to application providers.",
+                "C) Only validators receive rewards.",
+                "D) Users must stake to receive rewards."
+            ],
+            answer: 1
+        },
+        {
+            question: "4) Which utility category appears under 'Utilities for Builders'?",
+            options: [
+                "A) Dev Tools — including wallets and node-services.",
+                "B) Play-to-Earn Gaming APIs.",
+                "C) NFT Marketplace Generator.",
+                "D) AI Agent Scripting Engine."
+            ],
+            answer: 0
+        },
+        {
+            question: "5) What community resources are offered for developers?",
+            options: [
+                "A) Only a Telegram channel.",
+                "B) A forum, Discord, Telegram, blogs & updates.",
+                "C) Only email support.",
+                "D) Paid private support groups only."
+            ],
+            answer: 1
+        }
+    ];
+
+    let current = 0;
+    let score = 0;
+
+    function loadQuiz() {
+        document.getElementById("question").textContent = quizData[current].question;
+
+        let opts = "";
+        quizData[current].options.forEach((opt, i) => {
+            opts += `<div class="option" onclick="selectOption(${i})">${opt}</div>`;
+        });
+
+        document.getElementById("options").innerHTML = opts;
+    }
+
+    function selectOption(index) {
+        if (index === quizData[current].answer) {
+            score++;
+        }
+        nextQuestion();
+    }
+
+    function nextQuestion() {
+        current++;
+        if (current < quizData.length) {
+            loadQuiz();
+        } else {
+            document.getElementById("quizBox").innerHTML = `<p class='score'>Your Score: ${score}/${quizData.length}</p>`;
+        }
+    }
+
+    loadQuiz();
+</script>
+
+</body>
+</html>
